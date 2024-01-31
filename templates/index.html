@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .container form {
+            padding: 10px;
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        header {
+            background: #034184;
+            color: white;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: 1px solid #eaeaea;
+            text-align: center;
+        }
+        .form-field, .form-field select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+        .form-field::placeholder {
+            color: #000;
+            opacity: 1;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px 0;
+            color: #034184;
+            font-size: 14px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .container form input[type="submit"] {
+            background: #034184;
+            color: white;
+            border: 0;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 50%;
+            display: block;
+            margin: 10px auto;
+            grid-column: 1 / -1;
+        }
+        .container form input[type="submit"]:hover {
+            background: #0256a3;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+            .hidden {
+                display: none;
+            }
+
+            .shown {
+                display: block;
+            }
+
+        .last-row {
+            grid-column: 1 / span 3;
+            display: flex;
+            justify-content: space-between;
+        }
+        .last-row .input-group {
+            flex: 1;
+        }
+        .benefit {
+            flex: 1; 
+            display: flex;
+            flex-direction: row;
+        }
+        .small-input {
+            height: 30px;
+            vertical-align: middle;
+            margin-top: 8px; 
+        }
+
+        /* .summary-item, .premium-item, .premium-total {
+            margin-bottom: 10px;
+        } */
+        .disclaimer {
+            width: 100%;
+            grid-column: 1 / span 3;
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+            padding: 10px;
+            border-top: 1px solid #dee2e6;
+            font-size: 12px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .summary-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Align items at the start of the container */
+            flex-wrap: wrap; /* Wrap items if not enough space */
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            text-align: center;
+            width: 95%; /* Adjust as needed */
+        }
+
+        .summary-basic-info, .summary-premium-details {
+            flex: 1; /* Each child takes equal space */
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-size: smaller;
+        }
+
+        .summary-item, .premium-item, .premium-total {
+            margin-bottom: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+
+        .shown {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .summary-container {
+                flex-direction: column;
+            }
+            .summary-row {
+                flex-direction: column;
+            }
+            .summary-item {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+
+    </style>
+</head>
+ <body onload="resetFormAndHideSummary()">
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Fraud Detection</h1>
+            </div>
+        </div>
+    </header>
+    <section class="container">
+        <form method="POST" class="form-grid">
+            <div class="input-group">
+                <label for="email">Email Address:</label>
+                <input type="text" name="email" class="form-field" placeholder="email" required >
+            </div>
+            <div class="input-group">
+                <label for="product">Product Bought:</label>
+                <select name="product" class="form-field" required onchange="updateDropdowns()">
+                    <option value="" disabled selected>Select Product Bought</option>
+                    <option value="phones_tablets">Phones and Tablets</option>
+                    <option value="laptop_desktops">Laptop and Desktops</option>
+                    <option value="tv_home_theatre">TV and Home Theatre</option>
+                    <option value="printers_scanners">Printers and Scanners</option>
+                    <option value="cameras">Cameras</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="card_type">Card Type:</label>
+                <select name="card_type" class="form-field" required onchange="updateDropdowns()">
+                    <option value="" disabled selected>Select type of card</option>
+                    <option value="discover">Discover</option>
+                    <option value="mastercard">Mastercard</option>
+                    <option value="visa">Visa</option>
+                    <option value="american_express">American Express</option>
+                </select>
+            </div>            
+            <div class="input-group">
+                <label for="product">Card Options:</label>
+                <select name="card_options" class="form-field" required onchange="updateDropdowns()">
+                    <option value="" disabled selected>Select Card Option</option>
+                    <option value="credit">Credit</option>
+                    <option value="debit">Debit</option>
+                    <option value="charge card">Charge Card</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="DeviceType">Device Type:</label>
+                <select name="DeviceType" class="form-field" required onchange="updateDropdowns()">
+                    <option value="" disabled selected>Select Card Option</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="desktop">Desktop</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="amount">Total Payment Due:</label>
+                <input type="number" name="amount" class="form-field" required>
+            </div>
+            <input type="Submit" value="Submit">
+        </form>
+        <div class="summary-container {{ 'hidden' if result_message is none or result_message is undefined else 'shown' }}" id="summaryContainer">
+            <div class="summary-basic-info">
+                <div class="summary-item">{{ result_message }}</div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
